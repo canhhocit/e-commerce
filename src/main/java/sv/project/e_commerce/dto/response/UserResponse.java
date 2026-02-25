@@ -1,6 +1,5 @@
 package sv.project.e_commerce.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,15 +7,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import sv.project.e_commerce.model.enums.Role;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
-  @Builder.Default int code = 1000;
-  String message;
-  T result;
+public class UserResponse {
+    Long id;
+
+    String username;
+
+    String email;
+
+    String fullName;
+
+    String password;
+
+    String phone;
+
+    String address;
+
+    Role role;
 }

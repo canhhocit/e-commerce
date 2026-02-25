@@ -1,4 +1,4 @@
-package sv.project.e_commerce.dto;
+package sv.project.e_commerce.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

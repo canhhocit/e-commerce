@@ -1,16 +1,20 @@
 package sv.project.e_commerce.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import sv.project.e_commerce.model.enums.Role;
 
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -20,7 +24,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = true)
     private String email;
 
     @Column(nullable = false)
@@ -34,8 +38,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    private Boolean enabled = true;
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
