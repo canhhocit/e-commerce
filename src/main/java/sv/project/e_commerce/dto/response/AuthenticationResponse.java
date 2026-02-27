@@ -1,4 +1,4 @@
-package sv.project.e_commerce.dto;
+package sv.project.e_commerce.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

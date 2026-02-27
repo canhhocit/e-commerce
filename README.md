@@ -52,9 +52,8 @@ Dự án backend cho website thương mại điện tử bán chuột máy tính
 spring.datasource.url=jdbc:mysql://localhost:3306/mouse_shop
 spring.datasource.username=root
 spring.datasource.password=your_password
-
 application.security.jwt.secret-key=your_secret_key
-application.security.jwt.expiration=86400000
+
 ```
 
 ### Chạy ứng dụng
@@ -85,3 +84,5 @@ src/
 
 ---
 
+### Case: 
+- refresh token

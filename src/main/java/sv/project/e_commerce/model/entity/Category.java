@@ -21,6 +21,8 @@ public class Category {
 
     private String description;
 
+    private boolean enabled;
+
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 }

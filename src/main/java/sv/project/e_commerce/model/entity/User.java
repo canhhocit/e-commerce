@@ -24,7 +24,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(unique = true, nullable = true)
+    @Column(nullable = true)
     private String email;
 
     @Column(nullable = false)
@@ -39,11 +39,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean enabled;
+
+    private String verificationToken;
+
     @OneToOne(mappedBy = "user")
     private Cart cart;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
-   
 }

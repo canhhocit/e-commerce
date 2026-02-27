@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.11</version>
-		<relativePath/>
-		<!-- lookup parent from repository -->
-	</parent>
-	<groupId>sv.project</groupId>
-	<artifactId>e-commerce</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>e-commerce</name>
-	<description>project for Spring Boot</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.11</version>
+        <relativePath/>
+        <!-- lookup parent from repository -->
+    </parent>
+    <groupId>sv.project</groupId>
+    <artifactId>e-commerce</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>e-commerce</name>
+    <description>project for Spring Boot</description>
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
 
-	<properties>
+    <properties>
         <java.version>17</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.42</lombok.version>
@@ -93,7 +93,7 @@
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
         <!-- Spring Security -->
-        <!-- <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
@@ -101,12 +101,17 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
-        </dependency> -->
+        </dependency>
         <!-- OAuth2 Resource Server -->
-        <!-- <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency> -->
+        </dependency>
+        <!-- Mail starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
         <!-- H2 Database for testing -->
         <dependency>
@@ -122,14 +127,14 @@
             <artifactId>testcontainers</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Testcontainers MySQL -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Testcontainers JUnit Jupiter -->
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -137,12 +142,12 @@
             <scope>test</scope>
         </dependency>
         <!-- dev tool -->
-         <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
@@ -151,7 +156,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            
+
             <!-- SPOTLESS - Code Formatting -->
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
@@ -164,30 +169,30 @@
                             <include>src/main/java/**/*.java</include>
                             <include>src/test/java/**/*.java</include>
                         </includes>
-                        
+
                         <!-- Sử dụng Google Java Format -->
                         <googleJavaFormat>
                             <version>1.19.2</version>
                             <style>GOOGLE</style>
                         </googleJavaFormat>
                         <!-- toggleOffOn -->
-                         <toggleOffOn/>
-                        
+                        <toggleOffOn/>
+
                         <!-- Xóa các import không dùng -->
                         <removeUnusedImports />
-                        
+
                         <!-- Format các import theo thứ tự -->
                         <importOrder>
                             <order>java,javax,jakarta,org,com</order>
                         </importOrder>
-                        
+
                         <!-- Đảm bảo file kết thúc bằng newline -->
                         <endWithNewline />
-                        
+
                         <!-- Loại bỏ trailing whitespace -->
                         <trimTrailingWhitespace />
                     </java>
-                    
+
                     <!-- Format XML files (application.yml, etc.) -->
                     <formats>
                         <format>
@@ -204,7 +209,7 @@
                     </formats>
                 </configuration>
             </plugin>
-            
+
             <!-- JACOCO -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -233,7 +238,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

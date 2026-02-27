@@ -23,7 +23,7 @@ public class UserResponse {
 
     String fullName;
 
-    String password;
+    // String password;
 
     String phone;
 

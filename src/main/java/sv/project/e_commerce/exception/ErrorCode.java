@@ -23,10 +23,11 @@ public enum ErrorCode {
     USERNAME_REQUIRED(1006, "Username is required", HttpStatus.BAD_REQUEST),
     USERNAME_EXISTED(1006, "Username already existed", HttpStatus.BAD_REQUEST),
     PASSWORD_REQUIRED(1007, "Password is required", HttpStatus.BAD_REQUEST),
-
+    
     EMAIL_REQUIRED(1008, "Email is required", HttpStatus.BAD_REQUEST),
     EMAIL_INVALID(1009, "Email format is invalid", HttpStatus.BAD_REQUEST),
     EMAIL_EXISTED(1010, "Email already existed", HttpStatus.BAD_REQUEST),
+    ACCOUNT_NOT_VERIFIED(1010, "The email has already been sent. Please check your inbox again.", HttpStatus.CONFLICT),
 
     FULLNAME_REQUIRED(1011, "Full name is required", HttpStatus.BAD_REQUEST),
     FULLNAME_TOO_LONG(1012, "Full name is too long", HttpStatus.BAD_REQUEST),
@@ -40,22 +41,23 @@ public enum ErrorCode {
     USER_DISABLED(1016, "User account is disabled", HttpStatus.FORBIDDEN),
     USER_UNAUTHORIZED(1017, "Unauthorized access", HttpStatus.UNAUTHORIZED),
 
-    PASSWORD_NOT_MATCH(1018, "Password confirmation does not match", HttpStatus.BAD_REQUEST),
-    OLD_PASSWORD_INCORRECT(1019, "Old password is incorrect", HttpStatus.BAD_REQUEST),
+    PASSWORD_NOT_MATCH(1018, "Password does not match", HttpStatus.BAD_REQUEST),
 
-    // Authentication & Authorization (1006-1007)
-    UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
+    // Authentication & Authorization (4006-4007)
+    UNAUTHENTICATED(4006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(4007, "You do not have permission", HttpStatus.FORBIDDEN),
 
     // Category errors (2001-2099)
     CATEGORY_NOT_FOUND(2001, "Category not found", HttpStatus.NOT_FOUND),
     CATEGORY_EXISTED(2002, "Category already existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NAME_REQUIRED(2003, "Category name is required", HttpStatus.BAD_REQUEST),
+    CATEGORY_NAME_INVALID(1004, "Category name must be at least 5 characters", HttpStatus.BAD_REQUEST),
 
     // Product errors (3001-3099)
     PRODUCT_NOT_FOUND(3001, "Product not found", HttpStatus.NOT_FOUND),
     PRODUCT_OUT_OF_STOCK(3002, "Product is out of stock", HttpStatus.BAD_REQUEST),
-    PRODUCT_TITLE_REQUIRED(3003, "Product title is required", HttpStatus.BAD_REQUEST);
+    PRODUCT_TITLE_REQUIRED(3003, "Product title is required", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(1020, "Invalid token", HttpStatus.BAD_REQUEST);
 
     // Author errors (4001-4099)
     // AUTHOR_NOT_FOUND(4001, "Author not found", HttpStatus.NOT_FOUND),

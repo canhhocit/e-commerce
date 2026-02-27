@@ -41,11 +41,12 @@ public class ApplicationInitConfig {
                 .password(passwordEncoder.encode("admin"))
                 .fullName("ADMIN-MANAGERMENT")
                 .role(Role.ADMIN)
+                .enabled(true)
                 .build();
         userRepo.save(user);
-        log.info("admin user has been created with default: (username,password) - (admin,admin) , please change it !");
+        log.info("admin account has been created with default: (username,password) - (admin,admin) , please change it !");
       } else {
-        log.info("Admin user already exists");
+        log.info("Admin account already exists");
       }
     };
   }
