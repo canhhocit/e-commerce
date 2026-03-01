@@ -29,7 +29,7 @@ public class Product {
 
     private String imageUrl;
 
-    private Boolean active = true;
+    private Boolean active;
 
     private LocalDateTime createdAt;
 

@@ -24,24 +24,33 @@ import sv.project.e_commerce.service.UserService;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/users")
 public class UserController {
-  UserService userService;
+    UserService userService;
 
-  @PutMapping("/{username}")
-  ApiResponse<UserResponse> updateUser(@PathVariable String username, @RequestBody @Valid UserUpdateRequest request) {
-    return userService.updateUser(username, request);
-  }
+    @GetMapping
+    public ApiResponse<List<UserResponse>> getUsers() {
+        return ApiResponse.<List<UserResponse>>builder()
+                .result(userService.getUsers())
+                .build();
+    }
 
-  @GetMapping
-  ApiResponse<List<UserResponse>> getUsers() {
-    return userService.getUsers();
-  }
-  @GetMapping("/{username}")
-  ApiResponse<UserResponse> getUser(@PathVariable String username) {
-    return userService.getUserByUsername(username);
-  }
+    @GetMapping("/{username}")
+    public ApiResponse<UserResponse> getUser(@PathVariable String username) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getUserByUsername(username))
+                .build();
+    }
 
-  @DeleteMapping("/{username}")
-  ApiResponse<String> deleteUser(@PathVariable String username) {
-    return userService.deleteUser(username);
-  }
+    @PutMapping("/{username}")
+    public ApiResponse<UserResponse> updateUser(@PathVariable String username, @RequestBody @Valid UserUpdateRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateUser(username, request))
+                .build();
+    }
+
+    @DeleteMapping("/{username}")
+    public ApiResponse<String> deleteUser(@PathVariable String username) {
+        return ApiResponse.<String>builder()
+                .result(userService.deleteUser(username))
+                .build();
+    }
 }

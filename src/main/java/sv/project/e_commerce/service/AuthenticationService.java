@@ -46,7 +46,7 @@ public class AuthenticationService {
     @NonFinal
     @Value("${application.security.jwt.expiration}")
     protected long VALID_DURATION;
-
+    // login
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -65,29 +65,22 @@ public class AuthenticationService {
                 .token(token)
                 .build();
     }
-
+    //register
     public String register(UserCreateRequest request) {
-
         Optional<User> userByUsername = userRepository.findByUsername(request.getUsername());
         if (userByUsername.isPresent()) {
-
             User user = userByUsername.get();
             String token = user.getVerificationToken();
-            
             if (token != null && !token.isBlank() && user.getEmail().equals(request.getEmail())) {
                     throw new AppException(ErrorCode.ACCOUNT_NOT_VERIFIED);
-                }
-            else {
+            }else {
                 throw new AppException(ErrorCode.USERNAME_EXISTED);
             }
         }
-
         if (userRepository.existsByEmailAndEnabledTrue(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-
         String token = UUID.randomUUID().toString();
-
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -101,12 +94,10 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(user);
-
         emailService.sendVerificationEmail(user.getEmail(), token);
-
         return "Please check your email to verify your account";
     }
-
+    //verify Email
     public String verifyEmail(String token) {
         User user = userRepository.findByVerificationToken(token)
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_TOKEN));
@@ -117,7 +108,7 @@ public class AuthenticationService {
 
         return "Email verified successfully";
     }
-
+    // gen token
     private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 

@@ -28,27 +28,37 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping
-    ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest request) {
-        return categoryService.createCategory(request);
+    public ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest request) {
+        return ApiResponse.<CategoryResponse>builder()
+                .result(categoryService.addCategory(request))
+                .build();
     }
 
     @GetMapping
-    ApiResponse<List<CategoryResponse>> getCategories(){
-        return categoryService.getCategories();
+    public ApiResponse<List<CategoryResponse>> getCategories() {
+        return ApiResponse.<List<CategoryResponse>>builder()
+                .result(categoryService.getCategories())
+                .build();
     }
 
     @GetMapping("/{id}")
-    ApiResponse<CategoryResponse> getCategory(@PathVariable Long id){
-        return categoryService.getCategoryById(id);
+    public ApiResponse<CategoryResponse> getCategory(@PathVariable Long id) {
+        return ApiResponse.<CategoryResponse>builder()
+                .result(categoryService.getCategoryById(id))
+                .build();
     }
 
     @PutMapping("/{id}")
-     ApiResponse<CategoryResponse> updateCategory(@PathVariable Long id,@RequestBody @Valid CategoryRequest request){
-        return categoryService.upateCategory(id, request);
-     }
-     @DeleteMapping("/{id}")
-      ApiResponse<String> deleteCategory(Long id){
-        return categoryService.deleteCategory(id);
-      }
+    public ApiResponse<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody @Valid CategoryRequest request) {
+        return ApiResponse.<CategoryResponse>builder()
+                .result(categoryService.upateCategory(id, request))
+                .build();
+    }
 
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteCategory(@PathVariable Long id) {
+        return ApiResponse.<String>builder()
+                .result(categoryService.deleteCategory(id))
+                .build();
+    }
 }

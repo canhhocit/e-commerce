@@ -52,11 +52,22 @@ public enum ErrorCode {
     CATEGORY_EXISTED(2002, "Category already existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NAME_REQUIRED(2003, "Category name is required", HttpStatus.BAD_REQUEST),
     CATEGORY_NAME_INVALID(1004, "Category name must be at least 5 characters", HttpStatus.BAD_REQUEST),
+    CATEGORY_ID_REQUIRED(1004, "Category ID is required", HttpStatus.BAD_REQUEST),
 
     // Product errors (3001-3099)
     PRODUCT_NOT_FOUND(3001, "Product not found", HttpStatus.NOT_FOUND),
+    PRODUCT_NAME_INVALID(3001, "Invalid product name", HttpStatus.BAD_REQUEST),
+    PRODUCT_NAME_EXISTED(3001, "Product name is existed", HttpStatus.BAD_REQUEST),
     PRODUCT_OUT_OF_STOCK(3002, "Product is out of stock", HttpStatus.BAD_REQUEST),
-    PRODUCT_TITLE_REQUIRED(3003, "Product title is required", HttpStatus.BAD_REQUEST),
+    PRODUCT_NAME_REQUIRED(3003, "Product name is required", HttpStatus.BAD_REQUEST),
+    PRICE_REQUIRED(3004, "Price is required", HttpStatus.BAD_REQUEST),
+    STOCK_REQUIRED(3005, "Stock is required", HttpStatus.BAD_REQUEST),
+    INVALID_PRICE(3006, "Invalid price", HttpStatus.BAD_REQUEST),
+    INVALID_STOCK(3007, "Invalid stock", HttpStatus.BAD_REQUEST),
+
+    //FILE 
+    FILE_INPUT_ERR(4001,"Cannot store file",HttpStatus.BAD_REQUEST),
+    FILE_EMPTY(4002,"File is empty",HttpStatus.BAD_REQUEST),
     INVALID_TOKEN(1020, "Invalid token", HttpStatus.BAD_REQUEST);
 
     // Author errors (4001-4099)

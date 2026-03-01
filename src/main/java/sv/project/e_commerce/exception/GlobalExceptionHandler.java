@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @SuppressWarnings("rawtypes")
-    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException ex) {
+    ResponseEntity<ApiResponse> handlingException(Exception ex) {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
@@ -60,9 +60,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> handleValidationException(MethodArgumentNotValidException ex) {
-        String errorKey = ex.getBindingResult()
-                .getFieldError()
-                .getDefaultMessage(); // PASSWORD_INVALID
+        var fieldError = ex.getBindingResult().getFieldError();
+        if (fieldError == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        String errorKey = fieldError.getDefaultMessage();
 
         ErrorCode errorCode = ErrorCode.valueOf(errorKey);
 
