@@ -22,6 +22,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByActiveTrue();
 
+    Page<Product> findByCategoryIdAndActiveTrue(Long categoryId, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND p.active = true")
+    Page<Product> searchByCategoryIdAndNameAndActiveTrue(@Param("categoryId") Long categoryId,
+            @Param("name") String name, Pageable pageable);
+
     boolean existsByNameAndActiveTrue(String name);
 
 }

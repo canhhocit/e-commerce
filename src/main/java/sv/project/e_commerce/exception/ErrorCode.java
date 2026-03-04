@@ -23,7 +23,7 @@ public enum ErrorCode {
     USERNAME_REQUIRED(1006, "Username is required", HttpStatus.BAD_REQUEST),
     USERNAME_EXISTED(1006, "Username already existed", HttpStatus.BAD_REQUEST),
     PASSWORD_REQUIRED(1007, "Password is required", HttpStatus.BAD_REQUEST),
-    
+
     EMAIL_REQUIRED(1008, "Email is required", HttpStatus.BAD_REQUEST),
     EMAIL_INVALID(1009, "Email format is invalid", HttpStatus.BAD_REQUEST),
     EMAIL_EXISTED(1010, "Email already existed", HttpStatus.BAD_REQUEST),
@@ -65,10 +65,14 @@ public enum ErrorCode {
     INVALID_PRICE(3006, "Invalid price", HttpStatus.BAD_REQUEST),
     INVALID_STOCK(3007, "Invalid stock", HttpStatus.BAD_REQUEST),
 
-    //FILE 
-    FILE_INPUT_ERR(4001,"Cannot store file",HttpStatus.BAD_REQUEST),
-    FILE_EMPTY(4002,"File is empty",HttpStatus.BAD_REQUEST),
-    INVALID_TOKEN(1020, "Invalid token", HttpStatus.BAD_REQUEST);
+    // FILE
+    FILE_INPUT_ERR(4001, "Cannot store file", HttpStatus.BAD_REQUEST),
+    FILE_EMPTY(4002, "File is empty", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(1020, "Invalid token", HttpStatus.BAD_REQUEST),
+
+    // Cart & Order
+    CART_EMPTY(5001, "Your cart is empty", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_FOUND(6001, "Order not found", HttpStatus.NOT_FOUND);
 
     // Author errors (4001-4099)
     // AUTHOR_NOT_FOUND(4001, "Author not found", HttpStatus.NOT_FOUND),

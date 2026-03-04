@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// get,set,toString
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
