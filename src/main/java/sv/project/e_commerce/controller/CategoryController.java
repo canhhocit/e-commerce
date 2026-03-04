@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -24,9 +27,12 @@ import sv.project.e_commerce.service.CategoryService;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/categories")
+@Tag(name = "Danh mục", description = "Các endpoint quản lý danh mục sản phẩm")
 public class CategoryController {
     CategoryService categoryService;
 
+    @Operation(summary = "Tạo danh mục", description = "Tạo một danh mục sản phẩm mới")
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest request) {
         return ApiResponse.<CategoryResponse>builder()
@@ -34,6 +40,7 @@ public class CategoryController {
                 .build();
     }
 
+    @Operation(summary = "Lấy tất cả danh mục", description = "Lấy danh sách tất cả các danh mục đang hoạt động")
     @GetMapping
     public ApiResponse<List<CategoryResponse>> getCategories() {
         return ApiResponse.<List<CategoryResponse>>builder()
@@ -41,6 +48,7 @@ public class CategoryController {
                 .build();
     }
 
+    @Operation(summary = "Lấy danh mục theo ID", description = "Lấy thông tin chi tiết một danh mục theo ID")
     @GetMapping("/{id}")
     public ApiResponse<CategoryResponse> getCategory(@PathVariable Long id) {
         return ApiResponse.<CategoryResponse>builder()
@@ -48,13 +56,18 @@ public class CategoryController {
                 .build();
     }
 
+    @Operation(summary = "Cập nhật danh mục", description = "Cập nhật thông tin của một danh mục hiện có")
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
-    public ApiResponse<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody @Valid CategoryRequest request) {
+    public ApiResponse<CategoryResponse> updateCategory(@PathVariable Long id,
+            @RequestBody @Valid CategoryRequest request) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(categoryService.upateCategory(id, request))
                 .build();
     }
 
+    @Operation(summary = "Xóa danh mục", description = "Xóa một danh mục theo ID")
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteCategory(@PathVariable Long id) {
         return ApiResponse.<String>builder()
