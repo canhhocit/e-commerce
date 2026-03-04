@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,17 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("isAuthenticated()")
+    public UserResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        User user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        return userMapper.toUserResponse(user);
+    }
+
     // findOne
     public UserResponse getUserByUsername(String username) {
         User user = userRepository.findByUsernameAndEnabledTrue(username)
@@ -41,6 +53,7 @@ public class UserService {
     }
 
     // Update
+    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public UserResponse updateUser(String username, UserUpdateRequest request) {
         Optional<User> userByEmail = userRepository.findByEmailAndEnabledTrue(request.getEmail());
         if (userByEmail.isPresent() && !userByEmail.get().getUsername().equals(username)) {
@@ -49,13 +62,15 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        if (!user.isEnabled()) throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        if (!user.isEnabled())
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
         userMapper.updateUser(user, request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
     // Delete
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(String username) {
         User user = userRepository.findByUsernameAndEnabledTrue(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));

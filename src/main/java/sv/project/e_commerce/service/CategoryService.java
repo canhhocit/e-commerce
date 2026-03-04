@@ -3,6 +3,7 @@ package sv.project.e_commerce.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
 
     // add
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse addCategory(CategoryRequest request) {
         if (categoryRepository.existsByNameAndEnabledTrue(request.getName())) {
             throw new AppException(ErrorCode.CATEGORY_EXISTED);
@@ -44,6 +46,7 @@ public class CategoryService {
     }
 
     // update
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse upateCategory(Long id, CategoryRequest request) {
         Optional<Category> categoryByName = categoryRepository.findByNameAndEnabledTrue(request.getName());
         if (categoryByName.isPresent() && !categoryByName.get().getId().equals(id)) {
@@ -57,6 +60,7 @@ public class CategoryService {
     }
 
     // delete
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteCategory(Long id) {
         Category currcategory = categoryRepository.findByIdAndEnabledTrue(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));

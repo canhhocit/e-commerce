@@ -13,7 +13,7 @@ public class EmailService {
 
     public void sendVerificationEmail(String to, String token) {
         String subject = "Email Verification";
-        String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
+        String verificationUrl = "http://localhost:8080/mouse-shop/auth/verify?token=" + token;
         String message = "Please click the link below to verify your email:\n" + verificationUrl;
 
         SimpleMailMessage email = new SimpleMailMessage();
