@@ -27,7 +27,7 @@ import sv.project.e_commerce.service.CategoryService;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/categories")
-@Tag(name = "Danh mục", description = "Các endpoint quản lý danh mục sản phẩm")
+@Tag(name = "Danh mục", description = "Quản lý danh mục")
 public class CategoryController {
     CategoryService categoryService;
 
@@ -40,7 +40,7 @@ public class CategoryController {
                 .build();
     }
 
-    @Operation(summary = "Lấy tất cả danh mục", description = "Lấy danh sách tất cả các danh mục đang hoạt động")
+    @Operation(summary = "Xem tất cả danh mục", description = "Lấy danh sách tất cả các danh mục đang hoạt động")
     @GetMapping
     public ApiResponse<List<CategoryResponse>> getCategories() {
         return ApiResponse.<List<CategoryResponse>>builder()
@@ -56,7 +56,7 @@ public class CategoryController {
                 .build();
     }
 
-    @Operation(summary = "Cập nhật danh mục", description = "Cập nhật thông tin của một danh mục hiện có")
+    @Operation(summary = "Cập nhật danh mục", description = "Cập nhật thông tin của một danh mục đang hoạt động")
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
     public ApiResponse<CategoryResponse> updateCategory(@PathVariable Long id,
@@ -66,7 +66,7 @@ public class CategoryController {
                 .build();
     }
 
-    @Operation(summary = "Xóa danh mục", description = "Xóa một danh mục theo ID")
+    @Operation(summary = "Xóa danh mục", description = "Xóa theo ID")
     @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteCategory(@PathVariable Long id) {

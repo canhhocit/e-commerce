@@ -21,7 +21,7 @@ import java.text.ParseException;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Xác thực", description = "Các endpoint cho xác thực người dùng, đăng ký và quản lý token")
+@Tag(name = "Xác thực & đăng ký", description = "xác thực người dùng, đăng ký và refresh token")
 public class AuthenticationController {
 
     AuthenticationService authenticationService;
@@ -36,7 +36,7 @@ public class AuthenticationController {
     }
 
     // Create user
-    @Operation(summary = "Đăng ký", description = "Đăng ký tài khoản người dùng mới")
+    @Operation(summary = "Đăng ký", description = "tạo tài khoản & gửi verify về email")
     @PostMapping("/register")
     public ApiResponse<String> register(@RequestBody @Valid UserCreateRequest request) {
         var result = authenticationService.register(request);
@@ -45,7 +45,7 @@ public class AuthenticationController {
                 .build();
     }
 
-    @Operation(summary = "Xác minh Email", description = "Xác minh email người dùng bằng token")
+    @Operation(summary = "Xác minh Email", description = "Xác minh bằng token")
     @GetMapping("/verify")
     public ApiResponse<String> verifyEmail(@RequestParam("token") String token) {
         var result = authenticationService.verifyEmail(token);
@@ -54,7 +54,7 @@ public class AuthenticationController {
                 .build();
     }
 
-    @Operation(summary = "Kiểm tra Token", description = "Xác minh xem token có hợp lệ và còn hoạt động không")
+    @Operation(summary = "Kiểm tra Token", description = "Kiểm tra xem token còn hạn & hợp lệ không")
     @PostMapping("/introspect")
     public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request)
             throws JOSEException, ParseException {

@@ -1,13 +1,13 @@
 # 🖱️ Mouse Shop – E-Commerce REST API
 
-Dự án backend cho website thương mại điện tử bán chuột máy tính, xây dựng bằng **Spring Boot**.
+website thương mại điện tử (bán chuột máy tính), xây dựng bằng **Spring Boot**.
 
 ---
 
 ## 🛠️ Tech Stack
 
  ### Công nghệ 
- - Java 17 + Spring Boot 3.5
+ - Java 17 + Spring Boot 3
  - Spring Security + JWT
  - Spring Data JPA + MySQL
  - MapStruct 
@@ -15,19 +15,20 @@ Dự án backend cho website thương mại điện tử bán chuột máy tính
  - Swagger
 
 
+
 ---
 
-## ✨ Tính năng chính
+##  Tính năng chính
 
 ### 🔐 Authentication
 - **Đăng ký** tài khoản mới
 - **Đăng nhập** → nhận JWT token
-- Phân quyền 2 role: `ADMIN` và `CUSTOMER`
+- Phân quyền 2 role: `ADMIN` và `USER`
 
 ### 📦 Product Management
 - Xem danh sách sản phẩm có **tìm kiếm & phân trang** (public)
 - Thêm / Sửa / Xóa sản phẩm (chỉ `ADMIN`)
-- Xóa mềm (soft delete) – sản phẩm không bị mất khỏi database
+- Xóa mềm (soft delete) – giữ lại lịch sử
 
 ### 🛒 Cart (Giỏ hàng)
 - Mỗi user có **1 giỏ hàng riêng**
@@ -55,15 +56,9 @@ spring.datasource.password=your_password
 application.security.jwt.secret-key=your_secret_key
 
 ```
-
-### Chạy ứng dụng
-```bash
-mvn spring-boot:run
+### API docs (Swagger UI)
 ```
-
-### Xem API docs (Swagger UI)
-```
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/mouse-shop/swagger-ui/index.html
 ```
 
 ---
@@ -82,7 +77,3 @@ src/
 └── service/         # Business logic
 ```
 
----
-
-### Case: 
-- refresh token

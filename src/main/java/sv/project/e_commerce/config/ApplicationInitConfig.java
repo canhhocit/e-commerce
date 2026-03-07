@@ -32,7 +32,6 @@ public class ApplicationInitConfig {
       havingValue = "com.mysql.cj.jdbc.Driver")
   ApplicationRunner applicationRunner(UserRepository userRepo) {
     log.info("CONFIG: Init Application");
-    // dc khởi chạy mỗi khi đc start
     return args -> {
       if (userRepo.findByUsername("admin").isEmpty()) {
         User user =

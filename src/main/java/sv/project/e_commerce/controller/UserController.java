@@ -26,12 +26,12 @@ import sv.project.e_commerce.service.UserService;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/users")
-@Tag(name = "Người dùng", description = "Các endpoint cho hồ sơ và quản lý người dùng")
+@Tag(name = "Người dùng", description = "Hồ sơ và quản lý người dùng")
 @SecurityRequirement(name = "bearerAuth")
 public class UserController {
     UserService userService;
 
-    @Operation(summary = "Lấy thông tin của tôi", description = "Lấy thông tin hồ sơ của người dùng hiện đang đăng nhập")
+    @Operation(summary = "Lấy thông tin của chính mình", description = "Lấy thông tin hồ sơ của người dùng hiện đang đăng nhập")
     @GetMapping("/my-info")
     public ApiResponse<UserResponse> getMyInfo() {
         return ApiResponse.<UserResponse>builder()
@@ -64,7 +64,7 @@ public class UserController {
                 .build();
     }
 
-    @Operation(summary = "Xóa người dùng", description = "Vô hiệu hóa tài khoản người dùng theo username")
+    @Operation(summary = "Xóa người dùng", description = "Vô hiệu hóa tài khoản người dùng theo username(ADMIN)")
     @DeleteMapping("/{username}")
     public ApiResponse<String> deleteUser(@PathVariable String username) {
         return ApiResponse.<String>builder()

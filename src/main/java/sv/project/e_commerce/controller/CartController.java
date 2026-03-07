@@ -26,7 +26,7 @@ public class CartController {
         CartService cartService;
 
         @GetMapping
-        @Operation(summary = "Xem giỏ hàng hiện tại")
+        @Operation(summary = "Xem giỏ hàng ")
         public ApiResponse<Cart> getCart(
                         @AuthenticationPrincipal User user) {
                 return ApiResponse.<Cart>builder()
@@ -35,7 +35,7 @@ public class CartController {
         }
 
         @PostMapping("/add")
-        @Operation(summary = "Thêm sản phẩm vào giỏ hàng")
+        @Operation(summary = "Thêm sản phẩm vào giỏ")
         public ApiResponse<Void> addToCart(
                         @AuthenticationPrincipal User user,
                         @Valid @RequestBody CartItemRequest request) {
@@ -46,7 +46,7 @@ public class CartController {
         }
 
         @DeleteMapping("/remove/{productId}")
-        @Operation(summary = "Xoá sản phẩm khỏi giỏ hàng")
+        @Operation(summary = "Xoá sản phẩm khỏi giỏ")
         public ApiResponse<Void> removeFromCart(
                         @AuthenticationPrincipal User user,
                         @PathVariable Long productId) {

@@ -38,7 +38,7 @@ public class OrderController {
         }
 
         @GetMapping
-        @Operation(summary = "Xem lịch sử đơn hàng của tôi")
+        @Operation(summary = "Xem lịch sử đơn hàng")
         public ApiResponse<List<OrderResponse>> getMyOrders(
                         @AuthenticationPrincipal User user) {
                 return ApiResponse.<List<OrderResponse>>builder()

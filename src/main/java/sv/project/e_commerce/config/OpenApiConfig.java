@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "Mouse Shop API", version = "1.0", description = "Tài liệu API cho cửa hàng chuột máy tính"))
+@OpenAPIDefinition(info = @Info(title = "Mouse Shop API", version = "1.0", description = "API cho hệ thống bán chuột"))
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 public class OpenApiConfig {
 }

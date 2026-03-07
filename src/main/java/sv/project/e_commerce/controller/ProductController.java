@@ -29,7 +29,7 @@ import sv.project.e_commerce.service.ProductService;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/products")
-@Tag(name = "Sản phẩm", description = "Các endpoint quản lý sản phẩm, bao gồm cả xử lý hình ảnh")
+@Tag(name = "Sản phẩm", description = "Quản lý sản phẩm")
 public class ProductController {
         ProductService productService;
 
@@ -70,7 +70,7 @@ public class ProductController {
         }
 
         // update
-        @Operation(summary = "Cập nhật sản phẩm", description = "Cập nhật thông tin và/hoặc hình ảnh của một sản phẩm hiện có")
+        @Operation(summary = "Cập nhật sản phẩm", description = "Cập nhật thông tin, hình ảnh của một sản phẩm hiện có")
         @SecurityRequirement(name = "bearerAuth")
         @PutMapping(value = "/{id}", consumes = "multipart/form-data")
         public ApiResponse<ProductResponse> updateProduct(
