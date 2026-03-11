@@ -1,8 +1,5 @@
-# 🖱️ Mouse Shop – E-Commerce REST API
+# E-Commerce REST API
 
-Dự án backend cho website thương mại điện tử bán chuột máy tính, xây dựng bằng **Spring Boot**.
-
----
 
 ## 🛠️ Tech Stack
 
@@ -81,8 +78,3 @@ src/
 ├── repository/      # JPA repositories
 └── service/         # Business logic
 ```
-
----
-
-### Case: 
-- refresh token
