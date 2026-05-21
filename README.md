@@ -58,7 +58,7 @@ application.security.jwt.secret-key=your_secret_key
 ```
 ### API docs (Swagger UI)
 ```
-http://localhost:8080/mouse-shop/swagger-ui/index.html
+http://localhost:8080/hairfit/swagger-ui/index.html
 ```
 
 ---

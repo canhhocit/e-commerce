@@ -38,14 +38,16 @@ public class AIController {
     }
 
     @PostMapping(value = "/analyze", consumes = "multipart/form-data")
-    @Operation(summary = "Tải ảnh lên và phân tích dáng khuôn mặt", description = "Trả về dáng khuôn mặt ROUND, OVAL, SQUARE hoặc HEART")
-    public ApiResponse<String> analyzeFace(
+    @Operation(summary = "Tải ảnh lên và phân tích dáng khuôn mặt", description = "Trả về dáng khuôn mặt ROUND, OVAL, SQUARE hoặc HEART và các thông số chi tiết")
+    public ApiResponse<java.util.Map<String, Object>> analyzeFace(
             @AuthenticationPrincipal Jwt jwt,
-            @RequestPart("image") MultipartFile image) {
+            @RequestPart("image") MultipartFile image,
+            @RequestPart(value = "imageLeft", required = false) MultipartFile imageLeft,
+            @RequestPart(value = "imageRight", required = false) MultipartFile imageRight) {
         
-        String faceShape = aiService.analyzeFaceForUser(getUser(jwt), image);
-        return ApiResponse.<String>builder()
-                .result(faceShape)
+        java.util.Map<String, Object> result = aiService.analyzeFaceForUser(getUser(jwt), image, imageLeft, imageRight);
+        return ApiResponse.<java.util.Map<String, Object>>builder()
+                .result(result)
                 .build();
     }
 
