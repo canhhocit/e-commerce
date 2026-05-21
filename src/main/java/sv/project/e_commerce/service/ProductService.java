@@ -54,7 +54,7 @@ public class ProductService {
 
     // findOne
     public ProductResponse getProductById(Long id) {
-        Product product = productRepository.findByIdAndActiveTrue(id)
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         return productMapper.toProductResponse(product);
     }
@@ -66,32 +66,39 @@ public class ProductService {
     }
 
     public Page<ProductResponse> getProducts(int page, int size, String sortBy, String direction, String name,
-            Long categoryId) {
+            Long categoryId, String faceShape, boolean forAdmin) {
         Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<Product> productPage;
-        if (categoryId != null) {
-            if (name != null && !name.isEmpty()) {
-                productPage = productRepository.searchByCategoryIdAndNameAndActiveTrue(categoryId, name, pageable);
-            } else {
-                productPage = productRepository.findByCategoryIdAndActiveTrue(categoryId, pageable);
-            }
+        if (forAdmin) {
+            productPage = productRepository.findAll(pageable);
         } else {
-            if (name != null && !name.isEmpty()) {
-                productPage = productRepository.searchByNameAndActiveTrue(name, pageable);
+            if (faceShape != null && !faceShape.trim().isEmpty()) {
+                productPage = productRepository.findByFaceShapeForUser(faceShape, pageable);
+            } else if (categoryId != null) {
+                if (name != null && !name.isEmpty()) {
+                    productPage = productRepository.searchByCategoryIdAndNameForUser(categoryId, name, pageable);
+                } else {
+                    productPage = productRepository.findByCategoryIdForUser(categoryId, pageable);
+                }
             } else {
-                productPage = productRepository.findByActiveTrue(pageable);
+                if (name != null && !name.isEmpty()) {
+                    productPage = productRepository.searchByNameForUser(name, pageable);
+                } else {
+                    productPage = productRepository.findForUser(pageable);
+                }
             }
         }
         return productPage.map(productMapper::toProductResponse);
     }
 
+
     // update
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProduct(Long id, ProductUpdateRequest request, MultipartFile image) {
-        Product currProduct = productRepository.findByIdAndActiveTrue(id)
+        Product currProduct = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         productMapper.updateProduct(currProduct, request);
@@ -103,13 +110,20 @@ public class ProductService {
         return productMapper.toProductResponse(productRepository.save(currProduct));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProductResponse updateStatus(Long id, boolean active) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        product.setActive(active);
+        return productMapper.toProductResponse(productRepository.save(product));
+    }
+
     // delete
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteProduct(Long id) {
-        Product currProduct = productRepository.findByIdAndActiveTrue(id)
+        Product currProduct = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        currProduct.setActive(false);
-        productRepository.save(currProduct);
+        productRepository.delete(currProduct);
         return "'" + currProduct.getName() + "' was deleted";
     }
 }

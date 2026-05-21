@@ -11,6 +11,8 @@ import sv.project.e_commerce.model.entity.OrderItem;
 public interface OrderMapper {
 
     @Mapping(target = "items", source = "items")
+    @Mapping(target = "userUsername", source = "user.username")
+    @Mapping(target = "userFullName", source = "user.fullName")
     OrderResponse toOrderResponse(Order order);
 
     @Mapping(target = "productId", source = "product.id")

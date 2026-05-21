@@ -8,11 +8,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import sv.project.e_commerce.dto.request.CartItemRequest;
 import sv.project.e_commerce.dto.response.ApiResponse;
+import sv.project.e_commerce.exception.AppException;
+import sv.project.e_commerce.exception.ErrorCode;
 import sv.project.e_commerce.model.entity.Cart;
 import sv.project.e_commerce.model.entity.User;
+import sv.project.e_commerce.repository.UserRepository;
 import sv.project.e_commerce.service.CartService;
 
 @RestController
@@ -24,22 +28,28 @@ import sv.project.e_commerce.service.CartService;
 public class CartController {
 
         CartService cartService;
+        UserRepository userRepository;
+
+        private User getUser(Jwt jwt) {
+                return userRepository.findByUsername(jwt.getSubject())
+                                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        }
 
         @GetMapping
         @Operation(summary = "Xem giỏ hàng ")
         public ApiResponse<Cart> getCart(
-                        @AuthenticationPrincipal User user) {
+                        @AuthenticationPrincipal Jwt jwt) {
                 return ApiResponse.<Cart>builder()
-                                .result(cartService.getCart(user))
+                                .result(cartService.getCart(getUser(jwt)))
                                 .build();
         }
 
         @PostMapping("/add")
         @Operation(summary = "Thêm sản phẩm vào giỏ")
         public ApiResponse<Void> addToCart(
-                        @AuthenticationPrincipal User user,
+                        @AuthenticationPrincipal Jwt jwt,
                         @Valid @RequestBody CartItemRequest request) {
-                cartService.addItemToCart(user, request.getProductId(), request.getQuantity());
+                cartService.addItemToCart(getUser(jwt), request.getProductId(), request.getQuantity());
                 return ApiResponse.<Void>builder()
                                 .message("Thêm vào giỏ hàng thành công")
                                 .build();
@@ -48,9 +58,9 @@ public class CartController {
         @DeleteMapping("/remove/{productId}")
         @Operation(summary = "Xoá sản phẩm khỏi giỏ")
         public ApiResponse<Void> removeFromCart(
-                        @AuthenticationPrincipal User user,
+                        @AuthenticationPrincipal Jwt jwt,
                         @PathVariable Long productId) {
-                cartService.removeProductFromCart(user, productId);
+                cartService.removeProductFromCart(getUser(jwt), productId);
                 return ApiResponse.<Void>builder()
                                 .message("Đã xoá khỏi giỏ hàng")
                                 .build();

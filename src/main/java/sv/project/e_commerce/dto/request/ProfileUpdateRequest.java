@@ -1,36 +1,22 @@
-package sv.project.e_commerce.dto.response;
+package sv.project.e_commerce.dto.request;
 
-
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import sv.project.e_commerce.model.enums.Role;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    Long id;
-
-    String username;
-
-    String email;
-
+public class ProfileUpdateRequest {
+    @Size(max = 100, message = "FULLNAME_TOO_LONG")
     String fullName;
 
-    // String password;
-
-    String phone;
-
-    String address;
-
-    Role role;
-
-    String faceShape;
+    @Size(min = 6, message = "PASSWORD_INVALID")
+    String password;
 }
-

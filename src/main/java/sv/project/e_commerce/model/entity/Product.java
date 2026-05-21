@@ -1,5 +1,6 @@
 package sv.project.e_commerce.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,16 +32,21 @@ public class Product {
 
     private Boolean active;
 
+    private String suitableFaceShapes;
+
     private LocalDateTime createdAt;
+
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<CartItem> cartItems;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderItem> orderItems;
 
     @PrePersist

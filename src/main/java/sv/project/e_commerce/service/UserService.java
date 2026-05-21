@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import sv.project.e_commerce.dto.request.UserUpdateRequest;
+import sv.project.e_commerce.dto.request.ProfileUpdateRequest;
 import sv.project.e_commerce.dto.response.UserResponse;
 import sv.project.e_commerce.exception.AppException;
 import sv.project.e_commerce.exception.ErrorCode;
@@ -36,6 +37,22 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public UserResponse updateMyProfile(ProfileUpdateRequest request) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (request.getFullName() != null && !request.getFullName().isBlank()) {
+            user.setFullName(request.getFullName());
+        }
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     // findOne

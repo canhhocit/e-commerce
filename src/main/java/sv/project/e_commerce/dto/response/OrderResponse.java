@@ -19,5 +19,7 @@ public class OrderResponse {
     private OrderStatus status;
     private String shippingAddress;
     private LocalDateTime createdAt;
+    private String userUsername;
+    private String userFullName;
     private List<OrderItemResponse> items;
 }

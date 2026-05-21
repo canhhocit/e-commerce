@@ -33,6 +33,9 @@ public class ProductCreateRequest {
 
     private MultipartFile image;
 
+    private String suitableFaceShapes;
+
     @NotNull(message = "CATEGORY_ID_REQUIRED")
     private Long categoryId;
 }
+

@@ -19,6 +19,8 @@ public class ProductResponse {
     private Integer stock;
     private String imageUrl;
     private Boolean active;
+    private String suitableFaceShapes;
     private LocalDateTime createdAt;
     private Long categoryId;
 }
+

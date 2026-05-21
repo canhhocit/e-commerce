@@ -1,11 +1,14 @@
 package sv.project.e_commerce.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -46,19 +49,27 @@ public class ProductController {
         }
 
         // findAll
-        @Operation(summary = "Lấy tất cả sản phẩm", description = "Lấy danh sách sản phẩm có phân trang, hỗ trợ lọc theo tên và danh mục")
+        @Operation(summary = "Lấy tất cả sản phẩm", description = "Lấy danh sách sản phẩm có phân trang, hỗ trợ lọc theo tên, danh mục và dáng khuôn mặt. Tự động lọc cho User (chỉ lấy Active và còn hàng)")
         @GetMapping
         public ApiResponse<Page<ProductResponse>> getProducts(
+                        @AuthenticationPrincipal Jwt jwt,
                         @RequestParam(defaultValue = "1") int page,
                         @RequestParam(defaultValue = "10") int size,
                         @RequestParam(defaultValue = "id") String sortBy,
                         @RequestParam(defaultValue = "DESC") String direction,
                         @RequestParam(required = false) String name,
-                        @RequestParam(required = false) Long categoryId) {
+                        @RequestParam(required = false) Long categoryId,
+                        @RequestParam(required = false) String faceShape) {
+
+                boolean isAdmin = jwt != null && jwt.getClaimAsString("scope") != null
+                                && jwt.getClaimAsString("scope").contains("ADMIN");
+
                 return ApiResponse.<Page<ProductResponse>>builder()
-                                .result(productService.getProducts(page, size, sortBy, direction, name, categoryId))
+                                .result(productService.getProducts(page, size, sortBy, direction, name, categoryId,
+                                                faceShape, isAdmin))
                                 .build();
         }
+
 
         // findOne
         @Operation(summary = "Lấy sản phẩm theo ID", description = "Lấy thông tin chi tiết một sản phẩm theo ID")
@@ -79,6 +90,17 @@ public class ProductController {
                         @RequestPart(value = "image", required = false) MultipartFile image) {
                 return ApiResponse.<ProductResponse>builder()
                                 .result(productService.updateProduct(id, request, image))
+                                .build();
+        }
+
+        @Operation(summary = "Cập nhật trạng thái sản phẩm", description = "Cập nhật trạng thái active của sản phẩm")
+        @SecurityRequirement(name = "bearerAuth")
+        @PatchMapping("/{id}/status")
+        public ApiResponse<ProductResponse> updateStatus(
+                        @PathVariable Long id,
+                        @RequestParam boolean active) {
+                return ApiResponse.<ProductResponse>builder()
+                                .result(productService.updateStatus(id, active))
                                 .build();
         }
 

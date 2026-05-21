@@ -17,6 +17,7 @@ public interface UserMapper {
     @Mapping(target = "orders", ignore = true)
     @Mapping(target = "enabled", ignore = true)
     @Mapping(target = "verificationToken", ignore = true)
+    @Mapping(target = "faceShape", ignore = true)
     User toUser(UserCreateRequest request);
 
     UserResponse toUserResponse(User user);
@@ -28,5 +29,7 @@ public interface UserMapper {
     @Mapping(target = "orders", ignore = true)
     @Mapping(target = "enabled", ignore = true)
     @Mapping(target = "verificationToken", ignore = true)
+    @Mapping(target = "faceShape", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
+
 }

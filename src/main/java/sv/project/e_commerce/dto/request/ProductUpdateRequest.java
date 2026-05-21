@@ -27,4 +27,6 @@ public class ProductUpdateRequest {
 
     private MultipartFile image;
 
+    private String suitableFaceShapes;
 }
+

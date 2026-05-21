@@ -18,6 +18,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import sv.project.e_commerce.dto.request.UserUpdateRequest;
+import sv.project.e_commerce.dto.request.ProfileUpdateRequest;
 import sv.project.e_commerce.dto.response.ApiResponse;
 import sv.project.e_commerce.dto.response.UserResponse;
 import sv.project.e_commerce.service.UserService;
@@ -36,6 +37,14 @@ public class UserController {
     public ApiResponse<UserResponse> getMyInfo() {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getMyInfo())
+                .build();
+    }
+
+    @Operation(summary = "Cập nhật hồ sơ cá nhân", description = "Cập nhật tên và mật khẩu của người dùng đang đăng nhập")
+    @PutMapping("/my-profile")
+    public ApiResponse<UserResponse> updateMyProfile(@RequestBody @Valid ProfileUpdateRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateMyProfile(request))
                 .build();
     }
 

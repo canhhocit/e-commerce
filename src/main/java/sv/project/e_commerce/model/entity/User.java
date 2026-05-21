@@ -1,5 +1,6 @@
 package sv.project.e_commerce.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,10 +44,15 @@ public class User {
 
     private String verificationToken;
 
+    private String faceShape;
+
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Cart cart;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Order> orders;
 
 }
+

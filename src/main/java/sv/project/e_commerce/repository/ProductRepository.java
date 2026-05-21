@@ -30,4 +30,24 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     boolean existsByNameAndActiveTrue(String name);
 
+    // Filter by BOTH active and in-stock (used for USER side)
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0")
+    Page<Product> findForUser(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    Page<Product> searchByNameForUser(@Param("name") String name, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND p.category.id = :categoryId")
+    Page<Product> findByCategoryIdForUser(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND p.category.id = :categoryId AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    Page<Product> searchByCategoryIdAndNameForUser(@Param("categoryId") Long categoryId, @Param("name") String name,
+            Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND LOWER(p.suitableFaceShapes) LIKE LOWER(CONCAT('%', :faceShape, '%'))")
+    Page<Product> findByFaceShapeForUser(@Param("faceShape") String faceShape, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND LOWER(p.suitableFaceShapes) LIKE LOWER(CONCAT('%', :faceShape, '%'))")
+    List<Product> findByFaceShapeForUserList(@Param("faceShape") String faceShape);
 }
+
