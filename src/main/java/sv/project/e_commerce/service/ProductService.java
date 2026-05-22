@@ -75,7 +75,9 @@ public class ProductService {
         if (forAdmin) {
             productPage = productRepository.findAll(pageable);
         } else {
-            if (faceShape != null && !faceShape.trim().isEmpty()) {
+            if (faceShape != null && !faceShape.trim().isEmpty() && categoryId != null) {
+                productPage = productRepository.findByCategoryIdAndFaceShapeForUser(categoryId, faceShape, pageable);
+            } else if (faceShape != null && !faceShape.trim().isEmpty()) {
                 productPage = productRepository.findByFaceShapeForUser(faceShape, pageable);
             } else if (categoryId != null) {
                 if (name != null && !name.isEmpty()) {

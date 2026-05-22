@@ -49,5 +49,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND LOWER(p.suitableFaceShapes) LIKE LOWER(CONCAT('%', :faceShape, '%'))")
     List<Product> findByFaceShapeForUserList(@Param("faceShape") String faceShape);
+
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.stock > 0 AND p.category.id = :categoryId AND LOWER(p.suitableFaceShapes) LIKE LOWER(CONCAT('%', :faceShape, '%'))")
+    Page<Product> findByCategoryIdAndFaceShapeForUser(@Param("categoryId") Long categoryId, @Param("faceShape") String faceShape, Pageable pageable);
 }
+
 

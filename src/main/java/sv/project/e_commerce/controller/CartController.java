@@ -55,6 +55,17 @@ public class CartController {
                                 .build();
         }
 
+        @PutMapping("/update")
+        @Operation(summary = "Cập nhật số lượng sản phẩm")
+        public ApiResponse<Void> updateCartItem(
+                        @AuthenticationPrincipal Jwt jwt,
+                        @Valid @RequestBody CartItemRequest request) {
+                cartService.updateItemQuantity(getUser(jwt), request.getProductId(), request.getQuantity());
+                return ApiResponse.<Void>builder()
+                                .message("Cập nhật số lượng thành công")
+                                .build();
+        }
+
         @DeleteMapping("/remove/{productId}")
         @Operation(summary = "Xoá sản phẩm khỏi giỏ")
         public ApiResponse<Void> removeFromCart(

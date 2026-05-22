@@ -82,6 +82,23 @@ public class CartService {
     }
 
     @Transactional
+    public void updateItemQuantity(User user, Long productId, Integer quantity) {
+        User dbUser = userRepository.findByIdAndEnabledTrue(user.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_DISABLED));
+
+        Product product = productRepository.findByIdAndActiveTrue(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        Cart cart = getCart(dbUser);
+
+        CartItem item = cartItemRepository.findByCartAndProduct(cart, product)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        item.setQuantity(quantity);
+        cartItemRepository.save(item);
+    }
+
+    @Transactional
     public void clearCart(User user) {
         Cart cart = getCart(user);
         cartItemRepository.deleteAll(cart.getItems());
